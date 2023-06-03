@@ -1,19 +1,26 @@
-from base import app
-from flask_restx import Api
 from flask_cors import CORS
+from flask import Flask
+from flask_swagger_ui import get_swaggerui_blueprint
 
-from apis.home import home_api
+app = Flask(__name__)
 
-from base import swaggerui_blueprint, SWAGGER_URL
+from apis.v1 import v1_bp
+app.register_blueprint(v1_bp, url_prefix='/v1')
+
+SWAGGER_URL = '/swagger'
+API_URL = '/v1/swagger.json'
+
+swagger_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': "Flask Swagger UI"
+    }
+)
+
+app.register_blueprint(swagger_blueprint, url_prefix=SWAGGER_URL)
 
 CORS(app)  # 解决跨域问题
-
-api = Api(app)
-
-app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
-
-# 注册蓝图
-app.register_blueprint(home_api, url_prefix='/v1/home')
 
 if __name__ == '__main__':
     app.run(debug=True)
