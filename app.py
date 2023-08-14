@@ -3,6 +3,7 @@ from flask import Flask
 from flask_swagger_ui import get_swaggerui_blueprint
 
 app = Flask(__name__)
+CORS(app)  # 解决跨域问题
 
 from apis.v1 import v1_bp
 app.register_blueprint(v1_bp, url_prefix='/v1')
@@ -19,8 +20,6 @@ swagger_blueprint = get_swaggerui_blueprint(
 )
 
 app.register_blueprint(swagger_blueprint, url_prefix=SWAGGER_URL)
-
-CORS(app)  # 解决跨域问题
 
 if __name__ == '__main__':
     app.run(debug=True)

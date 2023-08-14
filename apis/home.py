@@ -3,7 +3,7 @@ from base.api_route import route
 
 home_ns = Namespace('home', description='Home operations')
 
-@home_ns.route('/v1/home')
+@home_ns.route('')
 class HomeResource(Resource):
     @route('')
     def get(self):
